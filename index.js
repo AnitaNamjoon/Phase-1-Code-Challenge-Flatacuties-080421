@@ -1,76 +1,75 @@
-// // Your code here
-document.addEventListener("DOMContentLoaded", () => {
-  fetchData();
+//Your code here
+document.addEventListener("DOM ContentLoaded",function(){
+  fetchInput();
 });
-// updating url to enable user view characters
-const base_url = "http://localhost:3000/characters";
-const characterBar = document.getElementById("character-bar");
-const characterName = document.getElementById("name");
-const characterImage = document.getElementById("image");
-const characterVoteCount = document.getElementById("vote-count");
-const characterVoteForm = document.getElementById("votes-form");
 
-//accessing characters
-function fetchData() {
-  fetch(base_url)
+//The characters are updated to enable the user to view
+let characterBar = document.getElementById("character-bar");
+let characterName = document.getElementById("name");
+let characterImage = document.getElementById("image");
+let characterVoteCount = document.getElementById("vote-count");
+let characterVoteForm = document.getElementById("votes-form");
+
+let  base_URL = "http://localhost:3000/characters";
+  
+ //Finding  the characters
+function fetchInput() {
+  fetch(base_URL)
     .then((response) => response.json())
-    .then((data) => {
-      renderCharacters(data);
-        });
+    .then(function (Input) {
+      renderCharacters(Input);
+    });
 }
-
-//Displaying characters on the page 
-function renderCharacters(data) {
-  data.forEach((data) => {
-    const nameSpan = document.createElement("span");
-    nameSpan.innerText = data.name;
+//Display characters information in a detailed way
+  function renderCharacters(Input) {
+    data.forEach((Input) => {
+      const nameSpan = document.createElement("span");
+      nameSpan.innerText = data.name;
 
     characterBar.appendChild(nameSpan);
     nameSpan.addEventListener("click", () => {
-      characterName.textContent = data.name;
-      characterImage.setAttribute("src", data.image);
-      characterVoteCount.textContent = data.votes;
+      characterName.textContent = Input.name;
+      characterImage.setAttribute("src", Input.image);
+      characterVoteCount.textContent = Input.votes;
     });
   });
 }
-//votes
-characterVoteForm.addEventListener("submit", (event) => {
+
+//The number of votes done and also updated
+votesForm.addEventListener('submit',event => {
   event.preventDefault();
-  const newVotes = parseInt(event.target.votes.value);
-  const characterVoteCount = document.getElementById("vote-count");
-  let current = parseInt(characterVoteCount.textContent);
-  let votecount = (current += newVotes);
-  characterVoteCount.innerText = votecount;
-    
-  let updateVotes = {
-    votes: votecount,
-  };
+  var newVotes = document.getElementById("votes");
+  let charactervotingCount = document.getElementById("vote-count");
+  const currentvotes = parseInt(charactervotingCount.textcontent)
+var votecount = (newVotes += currentvotes);
+charactervotingCount.innerText = votecount;
 
- });
+var upgradevotes ={
+  votes:votecount,
+};
+});
 
-const resetButton = document.querySelector('#reset-btn')
+
+var resetButton = document.querySelector('#reset-btn')
 resetButton.addEventListener('click', (event) => {
 
-
- // patch:allows partial updates for HTTP APIs in a standards compliant way.
- //application/json: Indicates that the request body format is JSON
- //stringify:converts a JavaScript value to a JSON string,
-  fetch(base_url)
+  fetch(base_URL)
   .then(response => response.json())
   .then(characters => {
-      //const charName = document.querySelector('#name')
-      const charID = characters.find(character => character.name === characterName.textContent)
-      fetch(`${base_url}/${charID.id}`, {
+      
+
+      var characterID = characters.find(character => character.name === characterName.textContent)
+      fetch(`${base_URL}/${characterID.id}`, {
           method: 'PATCH',
           headers: {
               'Content-Type' : 'application/json'
           },
           body: JSON.stringify({
-              votes : '0'
+              votes : "0"
           })
       })
       .then(response => response.json())
-      .then(data => characterVotes.textContent = data.votes)
+      .then(data => charactersvote.textContent = data.votes)
       .then((json) => console.log(json));
   })
 })
